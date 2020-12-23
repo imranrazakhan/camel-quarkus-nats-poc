@@ -1,4 +1,4 @@
-# ipc-manager project
+# camel-quarkus-nats-poc project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
