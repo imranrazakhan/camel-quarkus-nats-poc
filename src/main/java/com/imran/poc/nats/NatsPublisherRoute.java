@@ -13,9 +13,9 @@ public class NatsPublisherRoute extends RouteBuilder {
                 .setHeader(KubernetesConstants.KUBERNETES_NAMESPACE_NAME, simple("yq-dev"))
                 .setHeader(KubernetesConstants.KUBERNETES_SECRET_NAME, simple("broker"))
                 .to("kubernetes-secrets:///?kubernetesClient=#kubernetesClient&operation=getSecret")
-                // .setHeader("nats_user", simple(" ${body.getData.get[amq-password]} "))
-                .setHeader("nats_password", simple("${body?.getData['amq-password']}"))
+                .setHeader("nats_password")
+                .groovy("new String( request.getBody().getData().get('amq-password').decodeBase64() )")
                 .to("nats:testtopic?servers=10.149.10.221:30222,10.149.10.222:30222,10.149.10.223:30222")
-                .to("log:com.imran.poc?showAll=true&multiline=true").log("Route End");
+                .to("log:DEBUG?showAll=true&multiline=true").log("Route End");
     }
 }
